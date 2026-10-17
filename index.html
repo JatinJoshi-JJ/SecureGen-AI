@@ -1,0 +1,1180 @@
+<!doctype html>
+<html lang="en" class="light scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    SecureGen AI — Smart Password Generator & Digital Security Platform
+  </title>
+  <meta name="description"
+    content="Next-generation client-side cryptographic password generator and digital security intelligence platform. Powered by Web Crypto API and Gemini AI." />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Pin Sans"', '"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', '"Outfit"', 'sans-serif'],
+            mono: ['"Space Grotesk"', 'monospace'],
+          },
+          colors: {
+            pin: {
+              text: '#211922',
+              secondary: '#5c555e',
+              muted: '#847a86',
+              blue: '#2b48d4',
+              'blue-hover': '#1e38b8',
+              base: '#faf5ee',
+              surface: '#ffffff',
+              raised: '#fbfbf9',
+              strong: '#e5e5e0',
+              subtle: '#f2ede4',
+              orange: '#f27438',
+              yellow: '#f5c453',
+              sage: '#3ba372',
+              coral: '#e85d36',
+            }
+          },
+          borderRadius: {
+            'xs': '8px',
+            'sm': '16px',
+            'md': '50px',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Plus Jakarta Sans (Pin Sans stack), Outfit, Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="relative min-h-screen text-[#211922] dark:text-[#fbfbf9] bg-[#faf5ee] dark:bg-[#141115]">
+  <!-- Interactive Ambient Follower -->
+  <div id="cursor-light" class="hidden md:block"></div>
+
+  <!-- Section 1: Lightweight Preloader -->
+  <div id="preloader"
+    class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#faf5ee] dark:bg-[#141115] text-[#211922] dark:text-[#fbfbf9] transition-opacity duration-300 pointer-events-none opacity-0">
+    <div class="relative w-16 h-16 mb-4 flex items-center justify-center">
+      <div class="absolute inset-0 rounded-2xl border-2 border-[#2b48d4]/30 animate-ping"></div>
+      <div class="w-14 h-14 rounded-2xl bg-[#2b48d4]/10 border border-[#2b48d4]/30 flex items-center justify-center">
+        <svg class="w-7 h-7 text-[#2b48d4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+      </div>
+    </div>
+    <div class="font-mono-code text-sm tracking-widest text-[#211922] dark:text-[#fbfbf9] font-bold">
+      SECUREGEN AI
+    </div>
+    <div class="text-xs text-[#5c555e] dark:text-[#a9a1aa] mt-1 font-medium">
+      Initializing Cryptographic Engine...
+    </div>
+  </div>
+
+  <!-- Section 2: Sticky Header Navigation (Clean Pin on ui style) -->
+  <header class="sticky top-0 z-40 w-full glass-panel border-b border-[#e5e5e0] dark:border-[#362f3a] transition-colors duration-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <!-- Brand Logo -->
+      <a href="#hero"
+        class="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-[#2b48d4] rounded-2xl p-1">
+        <div
+          class="w-11 h-11 rounded-2xl bg-[#211922] dark:bg-[#fbfbf9] p-0.5 flex items-center justify-center shadow-md transition-shadow">
+          <div class="w-full h-full bg-[#211922] dark:bg-[#fbfbf9] rounded-[14px] flex items-center justify-center">
+            <svg class="w-6 h-6 text-[#faf5ee] dark:text-[#211922] transform group-hover:scale-110 transition-transform" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-lg font-extrabold tracking-tight text-[#211922] dark:text-[#fbfbf9]">SecureGen</span>
+            <span
+              class="px-2 py-0.5 text-[10px] font-mono-code font-bold uppercase rounded-full bg-[#2b48d4]/10 text-[#2b48d4] border border-[#2b48d4]/20">AI</span>
+          </div>
+          <span class="text-[10px] tracking-wider uppercase text-[#847a86] dark:text-[#a9a1aa] block font-mono-code font-medium">By Jatin Joshi</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-[#5c555e] dark:text-[#a9a1aa]">
+        <a href="#generator-section" class="hover:text-[#211922] dark:hover:text-[#fbfbf9] transition-colors">Generator</a>
+        <a href="#ai-intelligence" class="hover:text-[#211922] dark:hover:text-[#fbfbf9] transition-colors flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-[#f27438]"></span>
+          AI Security Lab
+        </a>
+        <a href="#presets" class="hover:text-[#211922] dark:hover:text-[#fbfbf9] transition-colors">Presets</a>
+        <a href="#entropy" class="hover:text-[#211922] dark:hover:text-[#fbfbf9] transition-colors">Entropy Guide</a>
+        <a href="#threats" class="hover:text-[#211922] dark:hover:text-[#fbfbf9] transition-colors">Threat Defense</a>
+        <a href="#faq" class="hover:text-[#211922] dark:hover:text-[#fbfbf9] transition-colors">FAQ</a>
+      </nav>
+
+      <!-- Action Utilities -->
+      <div class="flex items-center gap-3">
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" aria-label="Toggle light or dark theme"
+          class="p-2.5 rounded-full border border-[#e5e5e0] dark:border-[#362f3a] bg-white dark:bg-[#1c181e] text-[#211922] dark:text-[#fbfbf9] hover:border-[#211922] dark:hover:border-white transition-all focus:outline-none focus:ring-2 focus:ring-[#2b48d4] shadow-sm">
+          <svg id="theme-icon-dark" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <svg id="theme-icon-light" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+
+        <!-- CTA Button (Pill button like 'Subscribe now' in Image 2) -->
+        <a href="#generator-section"
+          class="hidden sm:inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider bg-[#211922] hover:bg-[#2b48d4] text-white dark:bg-[#fbfbf9] dark:text-[#211922] dark:hover:bg-[#2b48d4] dark:hover:text-white shadow-sm hover:shadow-md transition-all transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#2b48d4]">
+          <span>Create Password</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobile-menu-btn" aria-label="Open navigation menu"
+          class="md:hidden p-2.5 rounded-full border border-[#e5e5e0] dark:border-[#362f3a] bg-white dark:bg-[#1c181e] text-[#211922] dark:text-[#fbfbf9] hover:border-[#211922]">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Navigation -->
+    <div id="mobile-nav" class="hidden md:hidden px-6 py-4 glass-panel border-t border-[#e5e5e0] dark:border-[#362f3a] space-y-3">
+      <a href="#generator-section"
+        class="block py-2 text-[#5c555e] dark:text-[#a9a1aa] hover:text-[#211922] dark:hover:text-white font-medium mobile-link">Generator</a>
+      <a href="#ai-intelligence" class="block py-2 text-[#5c555e] dark:text-[#a9a1aa] hover:text-[#211922] dark:hover:text-white font-medium mobile-link">AI
+        Security Lab</a>
+      <a href="#presets" class="block py-2 text-[#5c555e] dark:text-[#a9a1aa] hover:text-[#211922] dark:hover:text-white font-medium mobile-link">Presets</a>
+      <a href="#entropy" class="block py-2 text-[#5c555e] dark:text-[#a9a1aa] hover:text-[#211922] dark:hover:text-white font-medium mobile-link">Entropy Guide</a>
+      <a href="#threats" class="block py-2 text-[#5c555e] dark:text-[#a9a1aa] hover:text-[#211922] dark:hover:text-white font-medium mobile-link">Threat
+        Defense</a>
+      <a href="#faq" class="block py-2 text-[#5c555e] dark:text-[#a9a1aa] hover:text-[#211922] dark:hover:text-white font-medium mobile-link">FAQ</a>
+    </div>
+  </header>
+
+  <!-- Section 3: Hero Section (Pin on ui Style) -->
+  <section id="hero" class="relative pt-12 pb-20 md:pt-20 md:pb-28 aurora-bg overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+      <!-- Verification Badge -->
+      <div
+        class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white dark:bg-[#1c181e] border border-[#e5e5e0] dark:border-[#362f3a] text-xs font-mono-code font-semibold text-[#211922] dark:text-[#fbfbf9] mb-8 shadow-sm animate-pulse-subtle">
+        <span class="w-2 h-2 rounded-full bg-[#3ba372]"></span>
+        VERIFIED CRYPTOGRAPHIC RANDOMNESS (CSPRNG)
+      </div>
+
+      <!-- Main Headline (Editorial & Warm, No Neon Clutter) -->
+      <h1
+        class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight max-w-5xl mx-auto leading-tight sm:leading-none mb-6 text-[#211922] dark:text-[#fbfbf9]">
+        Generate Strong Passwords.<br />
+        <span class="text-[#2b48d4] dark:text-[#4c6ef5]">Protect Your Digital Identity.</span>
+      </h1>
+
+      <p class="max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-[#5c555e] dark:text-[#a9a1aa] mb-10 leading-relaxed font-normal">
+        Built for developers, professionals, and privacy enthusiasts. Powered
+        by client-side Web Cryptography without telemetry, tracking, or
+        network transmission.
+      </p>
+
+      <!-- Primary CTAs (Pill Rounded) -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
+        <a href="#generator-section"
+          class="w-full sm:w-auto px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider bg-[#2b48d4] hover:bg-[#1e38b8] text-white shadow-lg shadow-[#2b48d4]/20 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+          <span>Generate Secure Password</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </a>
+
+        <a href="#entropy"
+          class="w-full sm:w-auto px-8 py-4 rounded-full font-bold text-sm uppercase tracking-wider bg-white dark:bg-[#1c181e] border border-[#e5e5e0] dark:border-[#362f3a] text-[#211922] dark:text-[#fbfbf9] hover:border-[#211922] dark:hover:border-white shadow-sm transition-all flex items-center justify-center">
+          How Entropy Works
+        </a>
+      </div>
+
+      <!-- Trust Metrics Strip (Warm stats matching Image 2 '5+ 12+ 236') -->
+      <div
+        class="mt-16 pt-10 border-t border-[#e5e5e0] dark:border-[#362f3a] grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-4xl mx-auto text-left">
+        <div class="p-4 bg-white/70 dark:bg-[#1c181e]/70 rounded-2xl border border-[#e5e5e0]/60 dark:border-[#362f3a]">
+          <div class="text-3xl font-extrabold font-mono-code text-[#f27438]">
+            0 ms
+          </div>
+          <div class="text-xs font-semibold text-[#5c555e] dark:text-[#a9a1aa] mt-1">Generation Latency</div>
+        </div>
+        <div class="p-4 bg-white/70 dark:bg-[#1c181e]/70 rounded-2xl border border-[#e5e5e0]/60 dark:border-[#362f3a]">
+          <div class="text-3xl font-extrabold font-mono-code text-[#2b48d4] dark:text-[#4c6ef5]">
+            256-Bit
+          </div>
+          <div class="text-xs font-semibold text-[#5c555e] dark:text-[#a9a1aa] mt-1">Shannon Entropy Peak</div>
+        </div>
+        <div class="p-4 bg-white/70 dark:bg-[#1c181e]/70 rounded-2xl border border-[#e5e5e0]/60 dark:border-[#362f3a]">
+          <div class="text-3xl font-extrabold font-mono-code text-[#e85d36]">
+            100% Local
+          </div>
+          <div class="text-xs font-semibold text-[#5c555e] dark:text-[#a9a1aa] mt-1">Zero Cloud Storage</div>
+        </div>
+        <div class="p-4 bg-white/70 dark:bg-[#1c181e]/70 rounded-2xl border border-[#e5e5e0]/60 dark:border-[#362f3a]">
+          <div class="text-3xl font-extrabold font-mono-code text-[#3ba372]">
+            RFC 4086
+          </div>
+          <div class="text-xs font-semibold text-[#5c555e] dark:text-[#a9a1aa] mt-1">Randomness Guideline</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Main Password Generator (Primary Workhorse) -->
+  <section id="generator-section" class="py-16 md:py-24 relative">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Section Header -->
+      <div class="text-center mb-10">
+        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3 text-[#211922] dark:text-[#fbfbf9]">
+          Cryptographic Key Generator
+        </h2>
+        <p class="text-sm sm:text-base text-[#5c555e] dark:text-[#a9a1aa] max-w-xl mx-auto">
+          Configure character pool parameters, eliminate modulo-bias, and
+          compute mathematical brute-force resilience.
+        </p>
+      </div>
+
+      <!-- Interactive Generator Card -->
+      <div class="bg-white dark:bg-[#1c181e] rounded-3xl p-6 sm:p-10 shadow-xl relative overflow-hidden border border-[#e5e5e0] dark:border-[#362f3a]">
+        <!-- Live Generated Password Output Display Box -->
+        <div class="relative mb-8">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono-code font-bold tracking-wider uppercase text-[#847a86] dark:text-[#a9a1aa]">Active
+              Output</span>
+            <span id="char-count-badge"
+              class="text-xs font-mono-code font-bold px-3 py-1 rounded-full bg-[#2b48d4]/10 text-[#2b48d4] dark:text-[#4c6ef5] border border-[#2b48d4]/20">16
+              Characters</span>
+          </div>
+
+          <div
+            class="relative flex items-center bg-[#fbfbf9] dark:bg-[#141115] rounded-2xl border border-[#e5e5e0] dark:border-[#362f3a] p-3 sm:p-4 transition-all focus-within:border-[#2b48d4] focus-within:ring-2 focus-within:ring-[#2b48d4]/20">
+            <!-- Password Text -->
+            <input id="password-display" type="text" readonly
+              class="w-full bg-transparent font-mono-code text-lg sm:text-2xl font-bold text-[#211922] dark:text-[#fbfbf9] tracking-wider focus:outline-none select-all pr-28"
+              value="" aria-label="Generated Password Output" />
+
+            <!-- Inline Action Buttons (Mask/Unmask, Regenerate, Copy) -->
+            <div class="absolute right-3 flex items-center gap-1.5 sm:gap-2">
+              <!-- Visibility Toggle -->
+              <button id="toggle-mask-btn" title="Mask/Unmask Password" aria-label="Mask or reveal password text"
+                class="p-2.5 rounded-full hover:bg-[#e5e5e0]/50 dark:hover:bg-[#242028] text-[#5c555e] dark:text-[#a9a1aa] hover:text-[#211922] dark:hover:text-white transition-colors focus:outline-none">
+                <svg id="eye-icon-show" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+                <svg id="eye-icon-hide" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+                </svg>
+              </button>
+
+              <!-- Regenerate Button -->
+              <button id="regenerate-btn" title="Generate New Password" aria-label="Regenerate random password"
+                class="p-2.5 rounded-full hover:bg-[#e5e5e0]/50 dark:hover:bg-[#242028] text-[#5c555e] dark:text-[#a9a1aa] hover:text-[#2b48d4] transition-transform active:rotate-180 duration-300 focus:outline-none">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+              </button>
+
+              <!-- Copy-to-Clipboard Button (Pill shaped) -->
+              <button id="copy-password-btn" title="Copy to clipboard" aria-label="Copy generated password"
+                class="px-5 py-2.5 rounded-full font-mono-code font-bold text-xs uppercase bg-[#2b48d4] hover:bg-[#1e38b8] text-white flex items-center gap-1.5 shadow-md active:scale-95 transition-all">
+                <svg id="copy-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                <span id="copy-text">Copy</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Toast Copy Status Message -->
+          <div id="copy-status" class="hidden mt-2 text-xs font-mono-code font-semibold text-[#3ba372] flex items-center gap-1">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span>Password securely copied to clipboard!</span>
+          </div>
+        </div>
+
+        <!-- Real-Time Strength Meter & Entropy Breakdown -->
+        <div class="mb-10 p-5 rounded-2xl bg-[#fbfbf9] dark:bg-[#141115] border border-[#e5e5e0] dark:border-[#362f3a] space-y-4">
+          <div class="flex items-center justify-between text-xs">
+            <div class="flex items-center gap-2">
+              <span class="text-[#5c555e] dark:text-[#a9a1aa] font-semibold">Estimated Strength:</span>
+              <span id="strength-label"
+                class="font-bold font-mono-code text-[#3ba372] uppercase tracking-wider">Strong</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-[#5c555e] dark:text-[#a9a1aa]">Entropy:</span>
+              <span id="entropy-value" class="font-bold font-mono-code text-[#2b48d4] dark:text-[#4c6ef5]">84.2 bits</span>
+            </div>
+          </div>
+
+          <!-- 5-Segment Visual Progress Bar -->
+          <div class="grid grid-cols-5 gap-2 h-2.5 w-full">
+            <div id="meter-1" class="h-full rounded-full bg-[#3ba372] transition-colors duration-300"></div>
+            <div id="meter-2" class="h-full rounded-full bg-[#3ba372] transition-colors duration-300"></div>
+            <div id="meter-3" class="h-full rounded-full bg-[#3ba372] transition-colors duration-300"></div>
+            <div id="meter-4" class="h-full rounded-full bg-[#3ba372] transition-colors duration-300"></div>
+            <div id="meter-5" class="h-full rounded-full bg-[#e5e5e0] dark:bg-[#362f3a] transition-colors duration-300"></div>
+          </div>
+
+          <!-- Crack Time Simulation -->
+          <div
+            class="flex flex-col sm:flex-row sm:items-center justify-between text-xs text-[#5c555e] dark:text-[#a9a1aa] pt-1 gap-2 border-t border-[#e5e5e0] dark:border-[#362f3a]">
+            <span>Brute-force crack time estimate (100 Billion
+              guesses/sec):</span>
+            <span id="crack-time" class="font-mono-code font-bold text-[#211922] dark:text-[#fbfbf9]">~ 4.8 Million Years</span>
+          </div>
+        </div>
+
+        <!-- Core Controls: Password Length Slider & Synchronized Input -->
+        <div class="mb-8">
+          <div class="flex items-center justify-between mb-3">
+            <label for="length-slider" class="text-sm font-bold tracking-wide text-[#211922] dark:text-[#fbfbf9]">
+              Password Length
+            </label>
+            <div class="flex items-center gap-2">
+              <input id="length-number" type="number" min="4" max="64" value="16"
+                class="w-16 px-2.5 py-1 text-center font-mono-code font-bold text-sm rounded-xl bg-[#fbfbf9] dark:bg-[#141115] border border-[#e5e5e0] dark:border-[#362f3a] text-[#2b48d4] dark:text-[#4c6ef5] focus:outline-none focus:border-[#2b48d4]"
+                aria-label="Password length number input" />
+              <span class="text-xs font-semibold text-[#847a86] dark:text-[#a9a1aa]">chars</span>
+            </div>
+          </div>
+
+          <input id="length-slider" type="range" min="4" max="64" value="16"
+            class="w-full cursor-pointer" aria-label="Password length slider" />
+          <div class="flex justify-between text-[11px] font-mono-code font-medium text-[#847a86] dark:text-[#a9a1aa] mt-2">
+            <span>4 (Minimal)</span>
+            <span>16 (Recommended)</span>
+            <span>32 (High Security)</span>
+            <span>64 (Ultra)</span>
+          </div>
+        </div>
+
+        <!-- Character-Type Options Grid -->
+        <div class="mb-8">
+          <label class="block text-sm font-bold tracking-wide text-[#211922] dark:text-[#fbfbf9] mb-4">
+            Character Pool Inclusions
+          </label>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Uppercase -->
+            <label
+              class="flex items-center justify-between p-3.5 rounded-2xl border border-[#e5e5e0] dark:border-[#362f3a] bg-[#fbfbf9] dark:bg-[#141115] hover:border-[#2b48d4] cursor-pointer transition-colors">
+              <div class="flex items-center gap-3">
+                <input id="opt-uppercase" type="checkbox" checked
+                  class="w-4 h-4 rounded text-[#2b48d4] focus:ring-[#2b48d4] border-[#e5e5e0]" />
+                <span class="text-sm font-semibold text-[#211922] dark:text-[#fbfbf9]">Uppercase Letters</span>
+              </div>
+              <span class="text-xs font-mono-code font-semibold text-[#847a86] dark:text-[#a9a1aa]">A–Z</span>
+            </label>
+
+            <!-- Lowercase -->
+            <label
+              class="flex items-center justify-between p-3.5 rounded-2xl border border-[#e5e5e0] dark:border-[#362f3a] bg-[#fbfbf9] dark:bg-[#141115] hover:border-[#2b48d4] cursor-pointer transition-colors">
+              <div class="flex items-center gap-3">
+                <input id="opt-lowercase" type="checkbox" checked
+                  class="w-4 h-4 rounded text-[#2b48d4] focus:ring-[#2b48d4] border-[#e5e5e0]" />
+                <span class="text-sm font-semibold text-[#211922] dark:text-[#fbfbf9]">Lowercase Letters</span>
+              </div>
+              <span class="text-xs font-mono-code font-semibold text-[#847a86] dark:text-[#a9a1aa]">a–z</span>
+            </label>
+
+            <!-- Numbers -->
+            <label
+              class="flex items-center justify-between p-3.5 rounded-2xl border border-[#e5e5e0] dark:border-[#362f3a] bg-[#fbfbf9] dark:bg-[#141115] hover:border-[#2b48d4] cursor-pointer transition-colors">
+              <div class="flex items-center gap-3">
+                <input id="opt-numbers" type="checkbox" checked
+                  class="w-4 h-4 rounded text-[#2b48d4] focus:ring-[#2b48d4] border-[#e5e5e0]" />
+                <span class="text-sm font-semibold text-[#211922] dark:text-[#fbfbf9]">Numeric Digits</span>
+              </div>
+              <span class="text-xs font-mono-code font-semibold text-[#847a86] dark:text-[#a9a1aa]">0–9</span>
+            </label>
+
+            <!-- Special Symbols -->
+            <label
+              class="flex items-center justify-between p-3.5 rounded-2xl border border-[#e5e5e0] dark:border-[#362f3a] bg-[#fbfbf9] dark:bg-[#141115] hover:border-[#2b48d4] cursor-pointer transition-colors">
+              <div class="flex items-center gap-3">
+                <input id="opt-symbols" type="checkbox" checked
+                  class="w-4 h-4 rounded text-[#2b48d4] focus:ring-[#2b48d4] border-[#e5e5e0]" />
+                <span class="text-sm font-semibold text-[#211922] dark:text-[#fbfbf9]">Special Symbols</span>
+              </div>
+              <span class="text-xs font-mono-code font-semibold text-[#847a86] dark:text-[#a9a1aa]">!@#$%^&amp;*()_+-=</span>
+            </label>
+          </div>
+
+          <!-- Inline Validation Alert (Shown when no checkboxes selected) -->
+          <div id="validation-error"
+            class="hidden mt-3 p-3 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-400 text-xs flex items-center gap-2">
+            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Please select at least one character category to construct the
+              cryptographic pool.</span>
+          </div>
+        </div>
+
+        <!-- Advanced Generator Options Accordion -->
+        <div class="border-t border-[#e5e5e0] dark:border-[#362f3a] pt-6">
+          <button id="toggle-advanced-btn"
+            class="flex items-center justify-between w-full text-xs font-mono-code font-bold uppercase tracking-wider text-[#5c555e] dark:text-[#a9a1aa] hover:text-[#2b48d4] transition-colors">
+            <span>Advanced Cryptographic Constraints</span>
+            <svg id="advanced-chevron" class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <div id="advanced-options-panel" class="hidden mt-4 space-y-3 pt-2">
+            <label
+              class="flex items-center justify-between p-3.5 rounded-2xl bg-[#fbfbf9] dark:bg-[#141115] border border-[#e5e5e0] dark:border-[#362f3a] text-xs">
+              <div>
+                <div class="font-bold text-[#211922] dark:text-[#fbfbf9]">
+                  Exclude Ambiguous Characters
+                </div>
+                <div class="text-[11px] text-[#5c555e] dark:text-[#a9a1aa]">
+                  Removes O, 0, I, l, 1 to prevent human transcription errors.
+                </div>
+              </div>
+              <input id="opt-ambiguous" type="checkbox"
+                class="w-4 h-4 rounded text-[#2b48d4] focus:ring-[#2b48d4] border-[#e5e5e0]" />
+            </label>
+
+            <label
+              class="flex items-center justify-between p-3.5 rounded-2xl bg-[#fbfbf9] dark:bg-[#141115] border border-[#e5e5e0] dark:border-[#362f3a] text-xs">
+              <div>
+                <div class="font-bold text-[#211922] dark:text-[#fbfbf9]">
+                  Avoid Duplicate Characters
+                </div>
+                <div class="text-[11px] text-[#5c555e] dark:text-[#a9a1aa]">
+                  Guarantees unique character instances across the string
+                  (requires length &le; pool size).
+                </div>
+              </div>
+              <input id="opt-no-duplicates" type="checkbox"
+                class="w-4 h-4 rounded text-[#2b48d4] focus:ring-[#2b48d4] border-[#e5e5e0]" />
+            </label>
+
+            <!-- Custom Character Exclusion Input -->
+            <div class="p-3.5 rounded-2xl bg-[#fbfbf9] dark:bg-[#141115] border border-[#e5e5e0] dark:border-[#362f3a] text-xs space-y-1.5">
+              <div class="font-bold text-[#211922] dark:text-[#fbfbf9]">
+                Custom Exclusion Characters
+              </div>
+              <input id="opt-custom-exclude" type="text" placeholder="e.g. #$&amp;*"
+                class="w-full px-3 py-2 rounded-xl bg-white dark:bg-[#1c181e] border border-[#e5e5e0] dark:border-[#362f3a] text-[#211922] dark:text-[#fbfbf9] font-mono-code focus:outline-none focus:border-[#2b48d4] text-xs" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Master Trigger Button (Pill shaped, high-contrast) -->
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <button id="main-generate-btn"
+            class="w-full py-4 rounded-full font-bold font-mono-code text-sm uppercase tracking-wider bg-[#211922] hover:bg-[#2b48d4] text-white dark:bg-[#fbfbf9] dark:text-[#211922] dark:hover:bg-[#2b48d4] dark:hover:text-white shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            <span>Generate Cryptographic Password</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Gemini AI Security Intelligence Suite (Warm Pin on ui style) -->
+  <section id="ai-intelligence" class="py-16 md:py-24 relative border-y border-[#e5e5e0] dark:border-[#362f3a]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Section Header -->
+      <div class="text-center mb-12">
+        <div
+          class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#f27438]/10 border border-[#f27438]/20 text-[#f27438] text-xs font-mono-code font-bold mb-3">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#f27438] animate-ping"></span>
+          GEMINI 2.5 FLASH ACCELERATED
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#211922] dark:text-[#fbfbf9]">
+          AI Digital Security Intelligence Lab
+        </h2>
+        <p class="text-sm sm:text-base text-[#5c555e] dark:text-[#a9a1aa] max-w-2xl mx-auto mt-2">
+          Transform hard-to-remember cryptographic secrets into visual memory
+          palace stories and run deep neural resilience audits.
+        </p>
+      </div>
+
+      <!-- Feature Grid: 1. Mnemonic Engine, 2. Thematic Passphrase, 3. Cyber Defense Consultant -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Feature 1: Password Mnemonic & Memory Palace Generator -->
+        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-11 h-11 rounded-2xl bg-[#f27438]/10 text-[#f27438] flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-bold text-base text-[#211922] dark:text-[#fbfbf9]">
+                  AI Memory Palace
+                </h3>
+                <span class="text-xs font-semibold text-[#847a86] dark:text-[#a9a1aa]">Mnemonic Hook Generator</span>
+              </div>
+            </div>
+
+            <p class="text-xs text-[#5c555e] dark:text-[#a9a1aa] leading-relaxed mb-4">
+              Uses Gemini to construct a vivid mental image and acronym
+              narrative so you can recall complex generated characters
+              effortlessly without writing them down.
+            </p>
+
+            <!-- Active Password Target -->
+            <div class="p-3 rounded-xl bg-[#fbfbf9] dark:bg-[#141115] border border-[#e5e5e0] dark:border-[#362f3a] font-mono-code text-xs mb-4">
+              <span class="text-[#847a86] dark:text-[#a9a1aa] block text-[10px] uppercase font-bold">Active Target</span>
+              <span id="ai-active-target" class="text-[#2b48d4] dark:text-[#4c6ef5] font-bold truncate block">Generating...</span>
+            </div>
+
+            <!-- Output Box -->
+            <div id="ai-mnemonic-output"
+              class="p-3.5 rounded-xl bg-[#faf5ee] dark:bg-[#141115] border border-[#e5e5e0] dark:border-[#362f3a] text-xs text-[#5c555e] dark:text-[#a9a1aa] min-h-[90px] flex items-center justify-center text-center italic">
+              Click below to generate an AI memory hook for this password.
+            </div>
+          </div>
+
+          <button id="btn-generate-mnemonic"
+            class="mt-5 w-full py-2.5 rounded-full font-bold font-mono-code text-xs uppercase tracking-wider bg-[#f27438] hover:bg-[#e05d25] text-white shadow-sm transition-colors flex items-center justify-center gap-2">
+            <span>Synthesize Memory Hook</span>
+          </button>
+        </div>
+
+        <!-- Feature 2: AI Thematic Smart Passphrase Generator (Diceware 2.0) -->
+        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-11 h-11 rounded-2xl bg-[#2b48d4]/10 text-[#2b48d4] flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-bold text-base text-[#211922] dark:text-[#fbfbf9]">
+                  Thematic Passphrase
+                </h3>
+                <span class="text-xs font-semibold text-[#847a86] dark:text-[#a9a1aa]">High-Entropy Multi-Word Keys</span>
+              </div>
+            </div>
+
+            <p class="text-xs text-[#5c555e] dark:text-[#a9a1aa] leading-relaxed mb-4">
+              Synthesize 4-word Diceware passphrases contextualized around
+              specialized narrative themes like Cyberpunk, Deep Space, or
+              Quantum Computing.
+            </p>
+
+            <div class="mb-3">
+              <label for="passphrase-theme-select" class="block text-[11px] font-mono-code font-bold text-[#847a86] dark:text-[#a9a1aa] mb-1">Theme
+                Domain</label>
+              <select id="passphrase-theme-select"
+                class="w-full px-3 py-2 rounded-xl bg-[#fbfbf9] dark:bg-[#141115] border border-[#e5e5e0] dark:border-[#362f3a] text-xs text-[#211922] dark:text-[#fbfbf9] focus:outline-none focus:border-[#2b48d4] font-mono-code">
+                <option value="Cyberpunk Security">
+                  Cyberpunk &amp; Matrix
+                </option>
+                <option value="Deep Space Astrophysics">
+                  Deep Space Astronomy
+                </option>
+                <option value="Quantum Computing & Physics">
+                  Quantum Mechanics
+                </option>
+                <option value="Ancient Mythology & Legends">
+                  Ancient Mythology
+                </option>
+              </select>
+            </div>
+
+            <!-- Output Box -->
+            <div id="ai-passphrase-output"
+              class="p-3.5 rounded-xl bg-[#faf5ee] dark:bg-[#141115] border border-[#e5e5e0] dark:border-[#362f3a] text-xs font-mono-code text-[#2b48d4] dark:text-[#4c6ef5] min-h-[90px] flex flex-col justify-center items-center text-center">
+              <span class="font-bold">neon-singularity-orbital-cipher</span>
+              <span class="text-[10px] text-[#847a86] dark:text-[#a9a1aa] mt-1 font-sans">Entropy: ~78.4 bits</span>
+            </div>
+          </div>
+
+          <button id="btn-generate-passphrase"
+            class="mt-5 w-full py-2.5 rounded-full font-bold font-mono-code text-xs uppercase tracking-wider bg-[#2b48d4] hover:bg-[#1e38b8] text-white shadow-sm transition-colors flex items-center justify-center gap-2">
+            <span>Synthesize Passphrase</span>
+          </button>
+        </div>
+
+        <!-- Feature 3: Cyber Defense Advisor & Threat AI Chat -->
+        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-11 h-11 rounded-2xl bg-[#f5c453]/20 text-[#211922] dark:text-[#f5c453] flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-bold text-base text-[#211922] dark:text-[#fbfbf9]">
+                  Cyber Defense Advisor
+                </h3>
+                <span class="text-xs font-semibold text-[#847a86] dark:text-[#a9a1aa]">Threat Intelligence Assistant</span>
+              </div>
+            </div>
+
+            <p class="text-xs text-[#5c555e] dark:text-[#a9a1aa] leading-relaxed mb-4">
+              Inquire regarding hash functions (Argon2id vs PBKDF2), Rainbow
+              Tables, 2FA hardware keys, and salt best practices.
+            </p>
+
+            <!-- Quick Question Chips (Pill styled) -->
+            <div class="flex flex-wrap gap-1.5 mb-3">
+              <button
+                class="quick-ask-btn text-[10px] font-semibold px-2.5 py-1 rounded-full bg-[#fbfbf9] dark:bg-[#141115] hover:bg-[#e5e5e0] text-[#5c555e] dark:text-[#a9a1aa] hover:text-[#211922] border border-[#e5e5e0] dark:border-[#362f3a] transition-colors">
+                Argon2 vs Bcrypt?
+              </button>
+              <button
+                class="quick-ask-btn text-[10px] font-semibold px-2.5 py-1 rounded-full bg-[#fbfbf9] dark:bg-[#141115] hover:bg-[#e5e5e0] text-[#5c555e] dark:text-[#a9a1aa] hover:text-[#211922] border border-[#e5e5e0] dark:border-[#362f3a] transition-colors">
+                How long to crack 16 chars?
+              </button>
+            </div>
+
+            <!-- Chat Output Box -->
+            <div id="ai-advisor-output"
+              class="p-3 rounded-xl bg-[#fbfbf9] dark:bg-[#141115] border border-[#e5e5e0] dark:border-[#362f3a] text-[11px] text-[#5c555e] dark:text-[#a9a1aa] h-[100px] overflow-y-auto leading-relaxed">
+              Ask any cybersecurity question below. Gemini AI is ready to
+              advise.
+            </div>
+          </div>
+
+          <div class="mt-4 flex gap-2">
+            <input id="advisor-query-input" type="text" placeholder="Ask a security question..."
+              class="w-full px-3.5 py-2 rounded-xl bg-[#fbfbf9] dark:bg-[#141115] border border-[#e5e5e0] dark:border-[#362f3a] text-xs text-[#211922] dark:text-[#fbfbf9] focus:outline-none focus:border-[#2b48d4]" />
+            <button id="btn-ask-advisor"
+              class="px-5 py-2 rounded-full bg-[#211922] hover:bg-[#2b48d4] text-white font-mono-code font-bold text-xs transition-colors">
+              Ask
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 6: Presets & Quick Actions (Pin on ui Style) -->
+  <section id="presets" class="py-16 md:py-20 relative">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-extrabold tracking-tight text-[#211922] dark:text-[#fbfbf9]">
+          Security Target Presets
+        </h2>
+        <p class="text-sm text-[#5c555e] dark:text-[#a9a1aa] mt-2 font-medium">
+          One-click parameters tuned for specific operational threat levels.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Preset 1 -->
+        <button class="preset-card text-left p-5 rounded-2xl glass-card hover:border-[#2b48d4] focus:outline-none group"
+          data-len="12" data-upper="true" data-lower="true" data-num="true" data-sym="false" data-amb="false">
+          <div class="text-xs font-mono-code text-[#2b48d4] font-bold mb-1">
+            STANDARD
+          </div>
+          <div class="text-base font-extrabold text-[#211922] dark:text-[#fbfbf9] group-hover:text-[#2b48d4] transition-colors">
+            Everyday Account
+          </div>
+          <p class="text-xs text-[#5c555e] dark:text-[#a9a1aa] mt-2 leading-relaxed">
+            12 characters, Alphanumeric. Ideal for low-friction forum or
+            newsletter logins.
+          </p>
+          <div class="mt-4 text-[11px] font-mono-code text-[#847a86] dark:text-[#a9a1aa]">
+            Pool: 62 chars &bull; ~71 bits
+          </div>
+        </button>
+
+        <!-- Preset 2 -->
+        <button
+          class="preset-card text-left p-5 rounded-2xl glass-card hover:border-[#f27438] focus:outline-none group"
+          data-len="16" data-upper="true" data-lower="true" data-num="true" data-sym="true" data-amb="false">
+          <div class="text-xs font-mono-code text-[#f27438] font-bold mb-1">
+            RECOMMENDED
+          </div>
+          <div class="text-base font-extrabold text-[#211922] dark:text-[#fbfbf9] group-hover:text-[#f27438] transition-colors">
+            Work &amp; SaaS Services
+          </div>
+          <p class="text-xs text-[#5c555e] dark:text-[#a9a1aa] mt-2 leading-relaxed">
+            16 characters, all character classes included. Strong defense
+            against GPU dictionary attacks.
+          </p>
+          <div class="mt-4 text-[11px] font-mono-code text-[#847a86] dark:text-[#a9a1aa]">
+            Pool: 94 chars &bull; ~105 bits
+          </div>
+        </button>
+
+        <!-- Preset 3 -->
+        <button class="preset-card text-left p-5 rounded-2xl glass-card hover:border-[#e85d36] focus:outline-none group"
+          data-len="28" data-upper="true" data-lower="true" data-num="true" data-sym="true" data-amb="true">
+          <div class="text-xs font-mono-code text-[#e85d36] font-bold mb-1">
+            MAX DEFENSE
+          </div>
+          <div class="text-base font-extrabold text-[#211922] dark:text-[#fbfbf9] group-hover:text-[#e85d36] transition-colors">
+            Banking &amp; Master Keys
+          </div>
+          <p class="text-xs text-[#5c555e] dark:text-[#a9a1aa] mt-2 leading-relaxed">
+            28 characters, high entropy, excluding ambiguous characters for
+            master password vaults.
+          </p>
+          <div class="mt-4 text-[11px] font-mono-code text-[#847a86] dark:text-[#a9a1aa]">
+            Pool: 86 chars &bull; ~179 bits
+          </div>
+        </button>
+
+        <!-- Preset 4 -->
+        <button
+          class="preset-card text-left p-5 rounded-2xl glass-card hover:border-[#3ba372] focus:outline-none group"
+          data-len="6" data-upper="false" data-lower="false" data-num="true" data-sym="false" data-amb="false">
+          <div class="text-xs font-mono-code text-[#3ba372] font-bold mb-1">
+            NUMERIC ONLY
+          </div>
+          <div class="text-base font-extrabold text-[#211922] dark:text-[#fbfbf9] group-hover:text-[#3ba372] transition-colors">
+            Device PIN Code
+          </div>
+          <p class="text-xs text-[#5c555e] dark:text-[#a9a1aa] mt-2 leading-relaxed">
+            6 digits. Suitable for mobile screen locks or hardware token
+            authentication.
+          </p>
+          <div class="mt-4 text-[11px] font-mono-code text-[#847a86] dark:text-[#a9a1aa]">
+            Pool: 10 chars &bull; ~19.9 bits
+          </div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 7: Mathematical Entropy Explainer -->
+  <section id="entropy" class="py-16 md:py-24 relative border-t border-[#e5e5e0] dark:border-[#362f3a]">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div>
+          <div class="text-xs font-mono-code uppercase tracking-wider text-[#2b48d4] font-bold mb-2">
+            CRYPTOGRAPHIC PRINCIPLES
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 text-[#211922] dark:text-[#fbfbf9]">
+            How Shannon Entropy Measures True Resistance
+          </h2>
+          <p class="text-[#5c555e] dark:text-[#a9a1aa] text-sm leading-relaxed mb-6">
+            Password security is not merely about using exclamation points; it
+            is determined by the mathematical size of the search space that an
+            attacker must exhaust.
+          </p>
+
+          <div class="p-5 rounded-2xl bg-white dark:bg-[#1c181e] border border-[#e5e5e0] dark:border-[#362f3a] font-mono-code text-xs space-y-2 mb-6 shadow-sm">
+            <div class="text-[#2b48d4] font-bold">Entropy Formula:</div>
+            <div class="text-xl text-[#211922] dark:text-[#fbfbf9] font-extrabold tracking-wider">
+              H = L &times; log₂(N)
+            </div>
+            <p class="text-[#5c555e] dark:text-[#a9a1aa] text-[11px] leading-relaxed font-sans">
+              Where <span class="text-[#2b48d4] font-bold font-mono">L</span> is
+              character length and
+              <span class="text-[#2b48d4] font-bold font-mono">N</span> is the
+              available pool size. Each additional bit doubles the
+              computational effort required for exhaustive search.
+            </p>
+          </div>
+
+          <ul class="space-y-3 text-xs text-[#5c555e] dark:text-[#a9a1aa]">
+            <li class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#f27438]"></span>
+              <span><strong class="text-[#211922] dark:text-[#fbfbf9]">&lt; 50 bits:</strong> Vulnerable to consumer GPU
+                hash attacks.</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#2b48d4]"></span>
+              <span><strong class="text-[#211922] dark:text-[#fbfbf9]">60 - 80 bits:</strong> Resilient against standard
+                dictionary attacks.</span>
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#3ba372]"></span>
+              <span><strong class="text-[#211922] dark:text-[#fbfbf9]">&gt; 90 bits:</strong> Computationally unfeasible
+                against state-level clusters.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-[#e5e5e0] dark:border-[#362f3a] space-y-6">
+          <h3 class="text-sm font-mono-code uppercase font-bold text-[#211922] dark:text-[#fbfbf9]">
+            Live Mathematical Telemetry
+          </h3>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-[#5c555e] dark:text-[#a9a1aa] font-medium">Active Pool (N):</span>
+                <span id="telemetry-pool" class="font-mono-code text-[#2b48d4] font-bold">94 Characters</span>
+              </div>
+              <div class="w-full bg-[#e5e5e0] dark:bg-[#362f3a] rounded-full h-2">
+                <div id="telemetry-pool-bar" class="bg-[#2b48d4] h-2 rounded-full" style="width: 100%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-[#5c555e] dark:text-[#a9a1aa] font-medium">Current Length (L):</span>
+                <span id="telemetry-length" class="font-mono-code text-[#f27438] font-bold">16 Characters</span>
+              </div>
+              <div class="w-full bg-[#e5e5e0] dark:bg-[#362f3a] rounded-full h-2">
+                <div id="telemetry-length-bar" class="bg-[#f27438] h-2 rounded-full" style="width: 25%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-[#5c555e] dark:text-[#a9a1aa] font-medium">Estimated Combinations:</span>
+                <span id="telemetry-combos" class="font-mono-code text-[#e85d36] font-bold">3.71 &times; 10²⁸</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-[#2b48d4]/5 border border-[#2b48d4]/20 text-xs text-[#211922] dark:text-[#fbfbf9] leading-relaxed">
+            <strong class="text-[#2b48d4]">Pro Tip:</strong> Increasing password length by just 4
+            characters has an exponentially greater security impact than
+            adding extra symbols to a short 8-character string.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 8: Security Threat Education Cards -->
+  <section id="threats" class="py-16 md:py-24 border-t border-[#e5e5e0] dark:border-[#362f3a]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl font-extrabold tracking-tight text-[#211922] dark:text-[#fbfbf9]">
+          Modern Digital Attack Vectors
+        </h2>
+        <p class="text-sm text-[#5c555e] dark:text-[#a9a1aa] mt-2 font-medium">
+          Understand how attackers compromise accounts and how CSPRNG stops
+          them.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="glass-card p-6 rounded-2xl">
+          <div class="w-11 h-11 rounded-2xl bg-[#e85d36]/10 text-[#e85d36] flex items-center justify-center mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <h3 class="font-extrabold text-base text-[#211922] dark:text-[#fbfbf9] mb-2">
+            Credential Stuffing
+          </h3>
+          <p class="text-xs text-[#5c555e] dark:text-[#a9a1aa] leading-relaxed">
+            Automated bots take username/password pairs breached from one
+            service and test them against thousands of others. Reusing
+            passwords guarantees multi-account compromise.
+          </p>
+          <div class="mt-4 pt-3 border-t border-[#e5e5e0] dark:border-[#362f3a] text-[11px] text-[#e85d36] font-mono-code font-bold">
+            Defense: Unique password per platform
+          </div>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl">
+          <div class="w-11 h-11 rounded-2xl bg-[#f27438]/10 text-[#f27438] flex items-center justify-center mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+            </svg>
+          </div>
+          <h3 class="font-extrabold text-base text-[#211922] dark:text-[#fbfbf9] mb-2">
+            GPU Hashcat Rig Attacks
+          </h3>
+          <p class="text-xs text-[#5c555e] dark:text-[#a9a1aa] leading-relaxed">
+            Modern 8x RTX 4090 arrays can compute over 100 billion NTLM hashes
+            per second. Passwords under 10 characters are cracked in minutes
+            regardless of symbols.
+          </p>
+          <div class="mt-4 pt-3 border-t border-[#e5e5e0] dark:border-[#362f3a] text-[11px] text-[#f27438] font-mono-code font-bold">
+            Defense: Length &gt; 15 characters
+          </div>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl">
+          <div class="w-11 h-11 rounded-2xl bg-[#2b48d4]/10 text-[#2b48d4] flex items-center justify-center mb-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+            </svg>
+          </div>
+          <h3 class="font-extrabold text-base text-[#211922] dark:text-[#fbfbf9] mb-2">
+            Predictable Social Clues
+          </h3>
+          <p class="text-xs text-[#5c555e] dark:text-[#a9a1aa] leading-relaxed">
+            Dictionary attacks utilize names, birth years, sports teams, or
+            pet names scraped from LinkedIn and Instagram profiles using
+            targeted regex masks.
+          </p>
+          <div class="mt-4 pt-3 border-t border-[#e5e5e0] dark:border-[#362f3a] text-[11px] text-[#2b48d4] font-mono-code font-bold">
+            Defense: Pure CSPRNG Randomness
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 9: FAQ Section -->
+  <section id="faq" class="py-16 md:py-24 border-t border-[#e5e5e0] dark:border-[#362f3a]">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-extrabold tracking-tight text-[#211922] dark:text-[#fbfbf9]">
+          Frequently Asked Questions
+        </h2>
+        <p class="text-sm text-[#5c555e] dark:text-[#a9a1aa] mt-2 font-medium">
+          Transparent insights regarding client-side security and data
+          privacy.
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Accordion Item 1 -->
+        <div class="border border-[#e5e5e0] dark:border-[#362f3a] rounded-2xl glass-card overflow-hidden">
+          <button
+            class="faq-question w-full p-5 text-left font-bold text-sm flex items-center justify-between text-[#211922] dark:text-[#fbfbf9] focus:outline-none"
+            aria-expanded="false">
+            <span>Is password generation really performed 100% locally?</span>
+            <svg class="faq-chevron w-4 h-4 text-[#2b48d4] transform transition-transform duration-200" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-answer hidden px-5 pb-5 text-xs text-[#5c555e] dark:text-[#a9a1aa] leading-relaxed border-t border-[#e5e5e0] dark:border-[#362f3a] pt-3 font-medium">
+            Yes. Generated passwords are never transmitted to any remote
+            backend server, database, or analytics endpoint. The entire key
+            construction runs exclusively in your browser via the native
+            <code class="text-[#2b48d4] dark:text-[#4c6ef5] font-mono-code font-bold">window.crypto.getRandomValues()</code>
+            API.
+          </div>
+        </div>
+
+        <!-- Accordion Item 2 -->
+        <div class="border border-[#e5e5e0] dark:border-[#362f3a] rounded-2xl glass-card overflow-hidden">
+          <button
+            class="faq-question w-full p-5 text-left font-bold text-sm flex items-center justify-between text-[#211922] dark:text-[#fbfbf9] focus:outline-none"
+            aria-expanded="false">
+            <span>Why is
+              <code class="text-[#2b48d4] dark:text-[#4c6ef5]">crypto.getRandomValues()</code>
+              preferred over
+              <code class="text-[#2b48d4] dark:text-[#4c6ef5]">Math.random()</code>?</span>
+            <svg class="faq-chevron w-4 h-4 text-[#2b48d4] transform transition-transform duration-200" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-answer hidden px-5 pb-5 text-xs text-[#5c555e] dark:text-[#a9a1aa] leading-relaxed border-t border-[#e5e5e0] dark:border-[#362f3a] pt-3 font-medium">
+            Standard
+            <code class="text-[#2b48d4] dark:text-[#4c6ef5] font-mono-code font-bold">Math.random()</code>
+            relies on pseudorandom algorithms (PRNG) like xorshift128+, which
+            are mathematically predictable once an attacker observes a few
+            outputs. In contrast,
+            <code class="text-[#2b48d4] dark:text-[#4c6ef5] font-mono-code font-bold">crypto.getRandomValues()</code>
+            draws entropy directly from the operating system's cryptographic
+            hardware sources.
+          </div>
+        </div>
+
+        <!-- Accordion Item 3 -->
+        <div class="border border-[#e5e5e0] dark:border-[#362f3a] rounded-2xl glass-card overflow-hidden">
+          <button
+            class="faq-question w-full p-5 text-left font-bold text-sm flex items-center justify-between text-[#211922] dark:text-[#fbfbf9] focus:outline-none"
+            aria-expanded="false">
+            <span>How does the AI Memory Palace work without sending
+              passwords?</span>
+            <svg class="faq-chevron w-4 h-4 text-[#2b48d4] transform transition-transform duration-200" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-answer hidden px-5 pb-5 text-xs text-[#5c555e] dark:text-[#a9a1aa] leading-relaxed border-t border-[#e5e5e0] dark:border-[#362f3a] pt-3 font-medium">
+            The AI features in this platform are client-initiated for
+            educational purposes. We provide an intelligent local fallback
+            simulator, and when connecting via live Gemini APIs, you maintain
+            full control over requests without persistence on disk or storage.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 10: Polished Multi-Column Cybersecurity Footer (Pin on ui Style) -->
+  <footer
+    class="border-t border-[#e5e5e0] dark:border-[#362f3a] bg-white/70 dark:bg-[#141115]/80 backdrop-blur-xl pt-16 pb-12 relative z-10 text-xs text-[#5c555e] dark:text-[#a9a1aa]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Top Grid: Brand & Structured Nav Columns -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-[#e5e5e0] dark:border-[#362f3a]">
+        <!-- Brand & Description Column (2 cols wide on large screens) -->
+        <div class="lg:col-span-2 space-y-4">
+          <div class="flex items-center gap-3">
+            <div
+              class="w-10 h-10 rounded-2xl bg-[#211922] text-[#faf5ee] dark:bg-[#fbfbf9] dark:text-[#211922] p-0.5 flex items-center justify-center shadow-sm">
+              <div
+                class="w-full h-full rounded-[14px] flex items-center justify-center font-bold font-mono-code text-sm">
+                JJ
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-base font-extrabold tracking-tight text-[#211922] dark:text-[#fbfbf9]">SecureGen AI</span>
+                <span
+                  class="px-2 py-0.5 text-[9px] font-mono-code font-bold uppercase rounded-full bg-[#2b48d4]/10 text-[#2b48d4] border border-[#2b48d4]/20">v2.5</span>
+              </div>
+              <span class="text-[11px] text-[#847a86] dark:text-[#a9a1aa] font-mono-code font-medium">By Jatin Joshi</span>
+            </div>
+          </div>
+
+          <p class="text-xs text-[#5c555e] dark:text-[#a9a1aa] leading-relaxed max-w-sm">
+            Create Strong Passwords. Protect Your Digital Identity.
+            Client-side cryptographically secure random generation powered by
+            Web Crypto API and Gemini AI Intelligence.
+          </p>
+
+          <!-- Security Status Indicator Badge -->
+          <div
+            class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#3ba372]/10 border border-[#3ba372]/30 text-[#3ba372] font-mono-code text-[11px] font-semibold">
+            <span class="w-2 h-2 rounded-full bg-[#3ba372] animate-pulse"></span>
+            <span>Local Engine: 100% Client-Side Isolated</span>
+          </div>
+        </div>
+
+        <!-- Col 2: Security Tools -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-mono-code font-bold uppercase tracking-wider text-[#211922] dark:text-[#fbfbf9]">
+            Security Suite
+          </h4>
+          <ul class="space-y-2 text-xs font-medium">
+            <li>
+              <a href="#generator-section" class="hover:text-[#2b48d4] transition-colors">Key Generator</a>
+            </li>
+            <li>
+              <a href="#ai-intelligence" class="hover:text-[#2b48d4] transition-colors">AI Memory Palace</a>
+            </li>
+            <li>
+              <a href="#ai-intelligence" class="hover:text-[#2b48d4] transition-colors">Thematic Passphrase</a>
+            </li>
+            <li>
+              <a href="#presets" class="hover:text-[#2b48d4] transition-colors">Target Presets</a>
+            </li>
+            <li>
+              <a href="#entropy" class="hover:text-[#2b48d4] transition-colors">Entropy Analyzer</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Knowledge & Defense -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-mono-code font-bold uppercase tracking-wider text-[#211922] dark:text-[#fbfbf9]">
+            Threat Defense
+          </h4>
+          <ul class="space-y-2 text-xs font-medium">
+            <li>
+              <a href="#threats" class="hover:text-[#2b48d4] transition-colors">Credential Stuffing</a>
+            </li>
+            <li>
+              <a href="#threats" class="hover:text-[#2b48d4] transition-colors">GPU Hashcat Defense</a>
+            </li>
+            <li>
+              <a href="#entropy" class="hover:text-[#2b48d4] transition-colors">Shannon Entropy Math</a>
+            </li>
+            <li>
+              <a href="#faq" class="hover:text-[#2b48d4] transition-colors">RFC 4086 Guidelines</a>
+            </li>
+            <li>
+              <a href="#faq" class="hover:text-[#2b48d4] transition-colors">FAQs</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Trust & Verification -->
+        <div class="space-y-3">
+          <h4 class="text-xs font-mono-code font-bold uppercase tracking-wider text-[#211922] dark:text-[#fbfbf9]">
+            Privacy &amp; Trust
+          </h4>
+          <ul class="space-y-2 text-xs font-medium">
+            <li class="flex items-center gap-1.5 text-[#5c555e] dark:text-[#a9a1aa]">
+              <svg class="w-3.5 h-3.5 text-[#3ba372]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>Zero-Log Architecture</span>
+            </li>
+            <li class="flex items-center gap-1.5 text-[#5c555e] dark:text-[#a9a1aa]">
+              <svg class="w-3.5 h-3.5 text-[#3ba372]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>No Server Transmission</span>
+            </li>
+            <li class="flex items-center gap-1.5 text-[#5c555e] dark:text-[#a9a1aa]">
+              <svg class="w-3.5 h-3.5 text-[#3ba372]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>No Database Storage</span>
+            </li>
+            <li class="flex items-center gap-1.5 text-[#5c555e] dark:text-[#a9a1aa]">
+              <svg class="w-3.5 h-3.5 text-[#3ba372]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span>Hardware CSPRNG</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom Bar: Copyright, Privacy Notice & Back-to-Top -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#847a86] dark:text-[#a9a1aa]">
+        <div>
+          <span>&copy; <strong class="text-[#211922] dark:text-[#fbfbf9]">SecureGen AI</strong> &bull; Crafted with
+            precision by <strong class="text-[#211922] dark:text-[#fbfbf9]">Jatin Joshi (JJ)</strong>.</span>
+          <span class="block sm:inline sm:ml-2">Pure client-side execution &bull; All rights
+            reserved.</span>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <a href="#hero" class="hover:text-[#2b48d4] transition-colors font-semibold">Back to Overview</a>
+          <button id="back-to-top"
+            class="px-4 py-2 rounded-full bg-white dark:bg-[#1c181e] hover:border-[#211922] text-[#211922] dark:text-[#fbfbf9] border border-[#e5e5e0] dark:border-[#362f3a] font-mono-code font-bold transition-all flex items-center gap-1.5 active:scale-95 shadow-sm">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+            </svg>
+            <span>Top of Page</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+
+</html>
